@@ -17,6 +17,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var hud: BFRadialWaveHUD?
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var errorView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,16 +79,20 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {
             (dataOrNil, response, error) in
-                if let data = dataOrNil {
+                if (error != nil) {
+                    print("error \(error)")
+                    self.errorView.hidden = false
+                }
+                else if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                         data, options:[]) as? NSDictionary {
                         print("response: \(responseDictionary)")
                         
                         self.movies = responseDictionary["results"] as? [NSDictionary]
                         self.tableView.reloadData()
-                        self.hud?.dismiss()
                     }
                 }
+                self.hud?.dismiss()
         })
         task.resume()
     }
