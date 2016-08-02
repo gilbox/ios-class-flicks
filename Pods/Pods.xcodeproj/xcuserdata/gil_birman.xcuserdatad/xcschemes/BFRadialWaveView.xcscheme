@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '56B05EE89AF7F4B2EF787131'
-               BlueprintName = 'Pods-Flicks'
+               BlueprintIdentifier = 'C21FB5F961B6DFBFE451AD1F'
+               BlueprintName = 'BFRadialWaveView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods_Flicks.framework'>
+               BuildableName = 'BFRadialWaveView.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -9,7 +9,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>BFRadialWaveHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BFRadialWaveView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Flicks.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UIColor+BFPaperColors.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>090900C64EA7D898C60833F49768DEA4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>10262832709DEC261F14B074091BFA24</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>389FA95944E60A1A776C4DD83E0DC53E</key>
+		<key>58175412D8671C556A9AB42928D43ECF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5E50E0C6B1F02A878F4AB81988542DBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

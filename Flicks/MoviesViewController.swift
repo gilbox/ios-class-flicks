@@ -8,16 +8,20 @@
 
 import UIKit
 import AFNetworking
+import BFRadialWaveHUD
 
 class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var movies: [NSDictionary]?
     var endpoint: String! // now_playing
+    var hud: BFRadialWaveHUD?
 
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hud = BFRadialWaveHUD(view: self.view, fullScreen: true, circles: BFRadialWaveHUD_DefaultNumberOfCircles, circleColor: nil, mode: BFRadialWaveHUDMode.KuneKune, strokeWidth: BFRadialWaveHUD_DefaultCircleStrokeWidth)
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -70,6 +74,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             delegateQueue: NSOperationQueue.mainQueue()
         )
         
+        hud?.show()
+        
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {
             (dataOrNil, response, error) in
                 if let data = dataOrNil {
@@ -79,6 +85,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         
                         self.movies = responseDictionary["results"] as? [NSDictionary]
                         self.tableView.reloadData()
+                        self.hud?.dismiss()
                     }
                 }
         })
