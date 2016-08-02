@@ -14,7 +14,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
   var movies: [NSDictionary]?
   var endpoint: String! // now_playing
-  var hud: BFRadialWaveHUD?
+  var hud: BFRadialWaveHUD!
+  var refreshControl: UIRefreshControl!
 
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var errorView: UIView!
@@ -27,7 +28,11 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     tableView.dataSource = self
     tableView.delegate = self
 
-    getData()
+    refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    tableView.insertSubview(refreshControl, atIndex: 0)
+
+    getData(nil)
 
     // Do any additional setup after loading the view.
   }
@@ -35,6 +40,10 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+
+  func refreshControlAction(refreshControl: UIRefreshControl) {
+    getData(refreshControl)
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,7 +70,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     return cell
   }
 
-  func getData() {
+  func getData(refreshControl: UIRefreshControl?) {
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
     let request = NSURLRequest(
@@ -75,6 +84,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       delegateQueue: NSOperationQueue.mainQueue()
     )
 
+    errorView.hidden = true
     hud?.show()
 
     let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {
@@ -82,6 +92,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       if (error != nil) {
         print("error \(error)")
         self.errorView.hidden = false
+        refreshControl?.endRefreshing()
       }
       else if let data = dataOrNil {
         if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
@@ -90,7 +101,13 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
           self.movies = responseDictionary["results"] as? [NSDictionary]
           self.tableView.reloadData()
-        }
+
+          refreshControl?.endRefreshing()
+        } // TODO: else error?
+      } else {
+        // TODO: is this an error?
+        refreshControl?.endRefreshing()
+        self.errorView.hidden = false
       }
       self.hud?.dismiss()
     })

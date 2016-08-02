@@ -2,7 +2,7 @@
 
 **Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **5** hours spent in total
+Time spent: **5.7** hours spent in total
 
 ## User Stories
 
@@ -12,7 +12,7 @@ The following **required** functionality is completed:
 - [X] User can view movie details by tapping on a cell.
 - [X] User sees loading state while waiting for the API.
 - [X] User sees an error message when there is a network error.
-- [ ] User can pull to refresh the movie list.
+- [X] User can pull to refresh the movie list.
 - [X] Add a tab bar for **Now Playing** and **Top Rated** movies.
 - [ ] Implement segmented control to switch between list view and grid view.
 
@@ -40,7 +40,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+- When is variable shadowing discouraged?
 
 ## License
 
