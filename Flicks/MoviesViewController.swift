@@ -10,7 +10,7 @@ import UIKit
 import AFNetworking
 import BFRadialWaveHUD
 
-class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
   var movies: [NSDictionary]?
   var endpoint: String! // now_playing
@@ -19,6 +19,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var errorView: UIView!
+  @IBOutlet weak var layoutSegmentedControl: UISegmentedControl!
+  @IBOutlet weak var gridView: UICollectionView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,13 +28,19 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     hud = BFRadialWaveHUD(view: self.view, fullScreen: true, circles: BFRadialWaveHUD_DefaultNumberOfCircles, circleColor: nil, mode: BFRadialWaveHUDMode.KuneKune, strokeWidth: BFRadialWaveHUD_DefaultCircleStrokeWidth)
 
     tableView.dataSource = self
+    gridView.dataSource = self
     tableView.delegate = self
+    gridView.delegate = self
 
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
     tableView.insertSubview(refreshControl, atIndex: 0)
 
+    tableView.hidden = false
+    gridView.hidden = true
+
     getData(nil)
+
 
     // Do any additional setup after loading the view.
   }
@@ -42,8 +50,41 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Dispose of any resources that can be recreated.
   }
 
+  @IBAction func layoutSegmentedControlValueChanged(sender: UISegmentedControl) {
+    print("changed! \(sender.selectedSegmentIndex)")
+    tableView.hidden = sender.selectedSegmentIndex == 1
+    gridView.hidden = sender.selectedSegmentIndex == 0
+
+    if (sender.selectedSegmentIndex == 0) {
+      tableView.insertSubview(refreshControl, atIndex: 0)
+      tableView.reloadData()
+    } else {
+      gridView.insertSubview(refreshControl, atIndex: 0)
+      gridView.reloadData()
+    }
+  }
+
   func refreshControlAction(refreshControl: UIRefreshControl) {
     getData(refreshControl)
+  }
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return movies?.count ?? 0
+  }
+
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = gridView.dequeueReusableCellWithReuseIdentifier("GridMovieCell", forIndexPath: indexPath) as! GridMovieCell
+    let movie = movies![indexPath.row]
+
+    let baseUrl = "http://image.tmdb.org/t/p/w500"
+
+    if let posterPath = movie["poster_path"] as? String {
+      let imageUrl = NSURL(string: baseUrl + posterPath)
+      cell.posterView.setImageWithURL(imageUrl!)
+    }
+
+    print("row \(indexPath.row)")
+    return cell
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,6 +112,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
 
   func getData(refreshControl: UIRefreshControl?) {
+
+
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
     let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
     let request = NSURLRequest(
@@ -100,9 +143,16 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
           print("response: \(responseDictionary)")
 
           self.movies = responseDictionary["results"] as? [NSDictionary]
-          self.tableView.reloadData()
+
+          if (self.layoutSegmentedControl.selectedSegmentIndex == 0) {
+            self.tableView.reloadData()
+          } else {
+            print("grid reload data")
+            self.gridView.reloadData()
+          }
 
           refreshControl?.endRefreshing()
+          self.gridView.contentInset = self.tableView.contentInset
         } // TODO: else error?
       } else {
         // TODO: is this an error?
@@ -121,12 +171,22 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
     print("prepare segue")
-    let cell = sender as! UITableViewCell
-    let indexPath = tableView.indexPathForCell(cell)
-    let movie = movies![indexPath!.row]
+    if (sender is UITableViewCell) {
+      let cell = sender as! UITableViewCell
+      let indexPath = tableView.indexPathForCell(cell)
+      let movie = movies![indexPath!.row]
 
-    let detailViewController = segue.destinationViewController as! DetailViewController
-    detailViewController.movie = movie
+      let detailViewController = segue.destinationViewController as! DetailViewController
+      detailViewController.movie = movie
+    } else {
+
+      let cell = sender as! UICollectionViewCell
+      let indexPath = gridView.indexPathForCell(cell)
+      let movie = movies![indexPath!.row]
+
+      let detailViewController = segue.destinationViewController as! DetailViewController
+      detailViewController.movie = movie
+    }
   }
 
 }
