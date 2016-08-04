@@ -97,6 +97,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
     if let posterPath = movie["poster_path"] as? String {
+      print("PPPP", posterPath)
+      print("QQQQ", movie["backdrop_path"])
       let imageUrl = NSURL(string: baseUrl + posterPath)
       setImageForGridCell(imageUrl!, cell: cell)
     }
@@ -211,6 +213,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       let movie = movies![indexPath!.row]
 
       let detailViewController = segue.destinationViewController as! DetailViewController
+      detailViewController.lowResImage = (cell as! MovieCell).posterView.image
       detailViewController.movie = movie
     } else {
 
@@ -219,6 +222,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       let movie = movies![indexPath!.row]
 
       let detailViewController = segue.destinationViewController as! DetailViewController
+      detailViewController.lowResImage = (cell as! GridMovieCell).posterView.image
       detailViewController.movie = movie
     }
   }

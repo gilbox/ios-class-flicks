@@ -16,6 +16,8 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var infoView: UIView!
 
+  let baseUrl = "http://image.tmdb.org/t/p/w1000"
+  var lowResImage: UIImage?
   var movie: NSDictionary!
 
   override func viewDidLoad() {
@@ -31,7 +33,9 @@ class DetailViewController: UIViewController {
 
     scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: 60 + infoView.frame.origin.y + infoView.frame.size.height)
 
-    let baseUrl = "http://image.tmdb.org/t/p/w500"
+    if let lowResImage = lowResImage {
+      posterImageView.image = lowResImage
+    }
 
     if let posterPath = movie["poster_path"] as? String {
       let imageUrl = NSURL(string: baseUrl + posterPath)
