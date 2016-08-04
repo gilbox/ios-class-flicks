@@ -49,6 +49,13 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Do any additional setup after loading the view.
   }
 
+  override func viewDidDisappear(animated: Bool) {
+    super.viewDidDisappear(animated)
+    if let indexPath = tableView.indexPathForSelectedRow {
+      tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+  }
+
   func dismissKeyboard() {
     view.endEditing(true)
   }
@@ -61,6 +68,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     tableView.contentInset.top = 0
+    print("didlayout")
   }
 
   @IBAction func layoutSegmentedControlValueChanged(sender: UISegmentedControl) {
@@ -176,6 +184,10 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     cell.titleLabel.text = title
     cell.overviewLabel.text = overview
 
+    let backgroundView = UIView()
+    backgroundView.backgroundColor = UIColor.greenColor()
+    cell.selectedBackgroundView = backgroundView
+
     return cell
   }
 
@@ -258,5 +270,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       detailViewController.movie = movie
     }
   }
+
 
 }
