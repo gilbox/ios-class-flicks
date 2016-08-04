@@ -12,6 +12,7 @@ import BFRadialWaveHUD
 
 class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
 
+  let baseUrl = "http://image.tmdb.org/t/p/w500"
   var movies: [NSDictionary]?
   var endpoint: String! // now_playing
   var hud: BFRadialWaveHUD!
@@ -72,23 +73,58 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     return movies?.count ?? 0
   }
 
+  func setImageForGridCell(imageUrl: NSURL, cell: GridMovieCell) {
+    let imageRequest = NSURLRequest(URL: imageUrl)
+
+    cell.posterView.setImageWithURLRequest(imageRequest, placeholderImage: nil, success: {
+      (imageRequest, imageResponse, image) -> Void in
+      // imageResponse will be nil if the image is cached
+      if imageResponse != nil {
+        cell.posterView.alpha = 0.0
+        cell.posterView.image = image
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+          cell.posterView.alpha = 1.0
+        })
+      } else {
+        cell.posterView.image = image
+      }
+      }, failure: { (imageRequest, imageResponse, error) -> Void in print("failure") })
+  }
+
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let cell = gridView.dequeueReusableCellWithReuseIdentifier("GridMovieCell", forIndexPath: indexPath) as! GridMovieCell
     let movie = movies![indexPath.row]
 
-    let baseUrl = "http://image.tmdb.org/t/p/w500"
 
     if let posterPath = movie["poster_path"] as? String {
       let imageUrl = NSURL(string: baseUrl + posterPath)
-      cell.posterView.setImageWithURL(imageUrl!)
+      setImageForGridCell(imageUrl!, cell: cell)
     }
 
-    print("row \(indexPath.row)")
     return cell
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return movies?.count ?? 0
+  }
+
+
+  func setImageForTableCell(imageUrl: NSURL, cell: MovieCell) {
+    let imageRequest = NSURLRequest(URL: imageUrl)
+
+    cell.posterView.setImageWithURLRequest(imageRequest, placeholderImage: nil, success: {
+      (imageRequest, imageResponse, image) -> Void in
+      // imageResponse will be nil if the image is cached
+      if imageResponse != nil {
+        cell.posterView.alpha = 0.0
+        cell.posterView.image = image
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+          cell.posterView.alpha = 1.0
+        })
+      } else {
+        cell.posterView.image = image
+      }
+      }, failure: { (imageRequest, imageResponse, error) -> Void in print("failure") })
   }
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -97,11 +133,9 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let title = movie["title"] as! String
     let overview = movie["overview"] as! String
 
-    let baseUrl = "http://image.tmdb.org/t/p/w500"
-
     if let posterPath = movie["poster_path"] as? String {
       let imageUrl = NSURL(string: baseUrl + posterPath)
-      cell.posterView.setImageWithURL(imageUrl!)
+      setImageForTableCell(imageUrl!, cell: cell)
     }
 
     cell.titleLabel.text = title
