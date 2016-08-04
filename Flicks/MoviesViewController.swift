@@ -10,10 +10,11 @@ import UIKit
 import AFNetworking
 import BFRadialWaveHUD
 
-class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
+class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
 
   let baseUrl = "http://image.tmdb.org/t/p/w500"
   var movies: [NSDictionary]?
+  var filteredMovies: [NSDictionary]?
   var endpoint: String! // now_playing
   var hud: BFRadialWaveHUD!
   var refreshControl: UIRefreshControl!
@@ -22,6 +23,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   @IBOutlet weak var errorView: UIView!
   @IBOutlet weak var layoutSegmentedControl: UISegmentedControl!
   @IBOutlet weak var gridView: UICollectionView!
+  @IBOutlet weak var searchBar: UISearchBar!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,6 +34,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     gridView.dataSource = self
     tableView.delegate = self
     gridView.delegate = self
+    searchBar.delegate = self
 
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
@@ -46,13 +49,21 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Do any additional setup after loading the view.
   }
 
+  func dismissKeyboard() {
+    view.endEditing(true)
+  }
+
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    tableView.contentInset.top = 0
+  }
+
   @IBAction func layoutSegmentedControlValueChanged(sender: UISegmentedControl) {
-    print("changed! \(sender.selectedSegmentIndex)")
     tableView.hidden = sender.selectedSegmentIndex == 1
     gridView.hidden = sender.selectedSegmentIndex == 0
 
@@ -65,12 +76,37 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
   }
 
+  func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    searchBar.resignFirstResponder()
+  }
+
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    if (searchText == "") {
+      filteredMovies = movies
+
+      // TODO: janky
+      searchBar.performSelector(#selector(UIResponder.resignFirstResponder), withObject: nil, afterDelay: 0.1)
+    } else {
+      filteredMovies = movies?.filter({ (movie: NSDictionary) in
+        let title = movie["title"] as! String
+        let overview = movie["overview"] as! String
+        return title.localizedCaseInsensitiveContainsString(searchText) || overview.localizedCaseInsensitiveContainsString(searchText)
+      })
+    }
+
+    if (layoutSegmentedControl.selectedSegmentIndex == 0) {
+      tableView.reloadData()
+    } else {
+      gridView.reloadData()
+    }
+  }
+
   func refreshControlAction(refreshControl: UIRefreshControl) {
     getData(refreshControl)
   }
 
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return movies?.count ?? 0
+    return filteredMovies?.count ?? 0
   }
 
   func setImageForGridCell(imageUrl: NSURL, cell: GridMovieCell) {
@@ -93,12 +129,9 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let cell = gridView.dequeueReusableCellWithReuseIdentifier("GridMovieCell", forIndexPath: indexPath) as! GridMovieCell
-    let movie = movies![indexPath.row]
-
+    let movie = filteredMovies![indexPath.row]
 
     if let posterPath = movie["poster_path"] as? String {
-      print("PPPP", posterPath)
-      print("QQQQ", movie["backdrop_path"])
       let imageUrl = NSURL(string: baseUrl + posterPath)
       setImageForGridCell(imageUrl!, cell: cell)
     }
@@ -107,7 +140,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return movies?.count ?? 0
+    return filteredMovies?.count ?? 0
   }
 
 
@@ -131,7 +164,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-    let movie = movies![indexPath.row]
+    let movie = filteredMovies![indexPath.row]
     let title = movie["title"] as! String
     let overview = movie["overview"] as! String
 
@@ -143,7 +176,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     cell.titleLabel.text = title
     cell.overviewLabel.text = overview
 
-    print("row \(indexPath.row)")
     return cell
   }
 
@@ -176,9 +208,9 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
       else if let data = dataOrNil {
         if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
           data, options:[]) as? NSDictionary {
-          print("response: \(responseDictionary)")
 
           self.movies = responseDictionary["results"] as? [NSDictionary]
+          self.filteredMovies = self.movies
 
           if (self.layoutSegmentedControl.selectedSegmentIndex == 0) {
             self.tableView.reloadData()
@@ -210,7 +242,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     if (sender is UITableViewCell) {
       let cell = sender as! UITableViewCell
       let indexPath = tableView.indexPathForCell(cell)
-      let movie = movies![indexPath!.row]
+      let movie = filteredMovies![indexPath!.row]
 
       let detailViewController = segue.destinationViewController as! DetailViewController
       detailViewController.lowResImage = (cell as! MovieCell).posterView.image
@@ -219,7 +251,7 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
       let cell = sender as! UICollectionViewCell
       let indexPath = gridView.indexPathForCell(cell)
-      let movie = movies![indexPath!.row]
+      let movie = filteredMovies![indexPath!.row]
 
       let detailViewController = segue.destinationViewController as! DetailViewController
       detailViewController.lowResImage = (cell as! GridMovieCell).posterView.image

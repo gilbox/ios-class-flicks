@@ -2,7 +2,7 @@
 
 **Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **8.5** hours spent in total
+Time spent: **11.5** hours spent in total
 
 ## User Stories
 
@@ -18,7 +18,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] Add a search bar.
+- [X] Add a search bar.
 - [X] All images fade in.
 - [X] For the large poster, load the low-res image first, switch to high-res when complete.
 - [ ] Customize the highlight and selection effect of the cell.
@@ -41,6 +41,15 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 - When is variable shadowing discouraged?
+
+- Not sure best way to handle hiding keyboard for search bar, currently doing this:
+
+            if (searchText == "") {
+              filteredMovies = movies
+
+              // TODO: janky
+              searchBar.performSelector(#selector(UIResponder.resignFirstResponder), withObject: nil, afterDelay: 0.1)
+            }
 
 ## License
 
