@@ -80,7 +80,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     tableView.contentInset.top = 0
-    print("didlayout")
   }
 
   @IBAction func layoutSegmentedControlValueChanged(sender: UISegmentedControl) {
@@ -235,11 +234,11 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
           self.movies = responseDictionary["results"] as? [NSDictionary]
           self.filteredMovies = self.movies
+//          print("movies", self.movies)
 
           if (self.layoutSegmentedControl.selectedSegmentIndex == 0) {
             self.tableView.reloadData()
           } else {
-            print("grid reload data")
             self.gridView.reloadData()
           }
 

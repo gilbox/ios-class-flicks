@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C85B7D2F6BF74CC3A33D094C'
+               BlueprintIdentifier = '9A0AF5BD42CFA107A30F452C'
                BlueprintName = 'BFRadialWaveHUD'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'BFRadialWaveHUD.framework'>

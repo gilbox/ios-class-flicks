@@ -113,7 +113,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Movies" id="Wqp-WT-usn">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="S3t-qZ-fv0">
+                        <barButtonItem key="rightBarButtonItem" id="S3t-qZ-fv0">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Xqc-wU-QvQ">
                                 <rect key="frame" x="223" y="8" width="81" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -175,12 +175,20 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6dc-i9-SMW">
-                                                <rect key="frame" x="15" y="8" width="264" height="23"/>
+                                                <rect key="frame" x="15" y="8" width="221" height="23"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Z9k-gU-vIL">
+                                                <rect key="frame" x="251" y="5" width="34" height="26"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="play_video"/>
+                                                <connections>
+                                                    <action selector="playTrailerButtonTouchUpInside:" destination="7tf-Ma-wTd" eventType="touchUpInside" id="2P0-jn-2Rx"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.7984105603448276" colorSpace="calibratedRGB"/>
                                     </view>
@@ -193,6 +201,7 @@
                     <connections>
                         <outlet property="infoView" destination="3VV-VT-dk7" id="ggL-v7-9JB"/>
                         <outlet property="overviewLabel" destination="sGw-Nj-DTD" id="Bfb-L5-zYL"/>
+                        <outlet property="playTrailerButton" destination="Z9k-gU-vIL" id="iKH-MP-8AX"/>
                         <outlet property="posterImageView" destination="7n2-Kr-9Wi" id="Oto-gQ-Kof"/>
                         <outlet property="scrollView" destination="Ho8-Pf-m1M" id="3Ls-0T-Wqx"/>
                         <outlet property="titleLabel" destination="6dc-i9-SMW" id="acS-41-Bo5"/>
@@ -255,6 +264,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="play_video" width="21" height="21"/>
         <image name="sad" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>

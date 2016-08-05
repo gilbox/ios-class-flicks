@@ -6,5 +6,6 @@ use_frameworks!
 target 'Flicks' do
     pod 'AFNetworking'
     pod 'BFRadialWaveHUD', '~> 1.5.4'
+    pod 'XCDYouTubeKit', '~> 2.5'
 end
 

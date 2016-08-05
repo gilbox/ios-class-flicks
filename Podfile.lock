@@ -20,15 +20,18 @@ PODS:
   - BFRadialWaveView (1.4.6):
     - UIColor+BFPaperColors
   - UIColor+BFPaperColors (1.7.2)
+  - XCDYouTubeKit (2.5.3)
 
 DEPENDENCIES:
   - AFNetworking
   - BFRadialWaveHUD (~> 1.5.4)
+  - XCDYouTubeKit (~> 2.5)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BFRadialWaveHUD: 11a42d0c73a96f055ca3b82ec69817b8d2554849
   BFRadialWaveView: dcf3f2b07b3993e6e748fd3489e490d94c1052a8
   UIColor+BFPaperColors: 03101fe6c10ed00c6daae7c26553f1de41500853
+  XCDYouTubeKit: 90690f9e3523735dc93b8024269d991b0cfffe78
 
 COCOAPODS: 0.39.0

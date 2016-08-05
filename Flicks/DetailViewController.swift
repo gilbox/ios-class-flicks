@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XCDYouTubeKit
 
 class DetailViewController: UIViewController {
 
@@ -15,10 +16,12 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var overviewLabel: UILabel!
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var infoView: UIView!
+  @IBOutlet weak var playTrailerButton: UIButton!
 
   let baseUrl = "http://image.tmdb.org/t/p/w1000"
   var lowResImage: UIImage?
   var movie: NSDictionary!
+  var videoInfo: NSDictionary!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,6 +47,10 @@ class DetailViewController: UIViewController {
 
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tappedPosterImage))
     scrollView.addGestureRecognizer(tapGesture)
+
+    // hide until we load the video info
+    playTrailerButton.hidden = true
+    getVideoData()
   }
 
   override func didReceiveMemoryWarning() {
@@ -55,7 +62,48 @@ class DetailViewController: UIViewController {
     performSegueWithIdentifier("PosterViewSegue", sender: self)
   }
 
+  func getVideoData() {
+    let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+    let movieId = movie["id"]!
+    let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(movieId)/videos?api_key=\(apiKey)")
+
+    let request = NSURLRequest(
+      URL: url!,
+      cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+      timeoutInterval: 10)
+
+    let session = NSURLSession(
+      configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+      delegate: nil,
+      delegateQueue: NSOperationQueue.mainQueue()
+    )
+
+    let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {
+      (dataOrNil, response, error) in
+      if let data = dataOrNil {
+        if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
+          data, options:[]) as? NSDictionary {
+
+          if let results = responseDictionary["results"] as? [NSDictionary] where results.count > 0 {
+            self.videoInfo = results[0]
+            if let site = self.videoInfo["site"] as? String where site == "YouTube" {
+              self.playTrailerButton.fadeIn()
+            }
+          }
+        }
+      }
+    })
+    task.resume()
+  }
+
   @IBAction func unwindToDetailViewController(segue: UIStoryboardSegue) {}
+
+  @IBAction func playTrailerButtonTouchUpInside(sender: UIButton) {
+    if let videoId = self.videoInfo["key"] as? String {
+      let videoPlayerController = XCDYouTubeVideoPlayerViewController(videoIdentifier: videoId)
+      self.presentMoviePlayerViewControllerAnimated(videoPlayerController)
+    }
+  }
 
    // MARK: - Navigation
 

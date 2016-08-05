@@ -2,7 +2,7 @@
 
 **Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **15.2** hours spent in total
+Time spent: **17.7** hours spent in total
 
 ## User Stories
 
@@ -24,7 +24,7 @@ The following **optional** features are implemented:
 - [X] Customize the highlight and selection effect of the cell.
 - [X] Customize the navigation bar.
 - [X] Tapping on a movie poster image shows the movie poster as full screen and zoomable.
-- [ ] User can tap on a button to play the movie trailer.
+- [X] User can tap on a button to play the movie trailer.
 
 The following **additional** features are implemented:
 

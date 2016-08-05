@@ -18,6 +18,7 @@
 		21B0C4AC1D546A800047D35F /* PosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B0C4AB1D546A800047D35F /* PosterViewController.swift */; };
 		21B0C4AE1D5470290047D35F /* PosterStoryboardSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B0C4AD1D5470290047D35F /* PosterStoryboardSegue.swift */; };
 		21B0C4B01D5473DD0047D35F /* PosterStoryboardUnwindSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B0C4AF1D5473DD0047D35F /* PosterStoryboardUnwindSegue.swift */; };
+		21B0C4B21D55227A0047D35F /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B0C4B11D55227A0047D35F /* UIViewExtensions.swift */; };
 		81A6FE315321F958AAA10E19 /* Pods_Flicks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC0EA36AF22723E948A35FE /* Pods_Flicks.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		21B0C4AB1D546A800047D35F /* PosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PosterViewController.swift; sourceTree = "<group>"; };
 		21B0C4AD1D5470290047D35F /* PosterStoryboardSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PosterStoryboardSegue.swift; sourceTree = "<group>"; };
 		21B0C4AF1D5473DD0047D35F /* PosterStoryboardUnwindSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PosterStoryboardUnwindSegue.swift; sourceTree = "<group>"; };
+		21B0C4B11D55227A0047D35F /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		68707A9C9B40E53EFBC02375 /* Pods-Flicks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flicks.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flicks/Pods-Flicks.release.xcconfig"; sourceTree = "<group>"; };
 		8A172A6BE100FF2CDCD443F3 /* Pods-Flicks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flicks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flicks/Pods-Flicks.debug.xcconfig"; sourceTree = "<group>"; };
 		BCC0EA36AF22723E948A35FE /* Pods_Flicks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flicks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +86,7 @@
 				21B0C4AB1D546A800047D35F /* PosterViewController.swift */,
 				21B0C4AD1D5470290047D35F /* PosterStoryboardSegue.swift */,
 				21B0C4AF1D5473DD0047D35F /* PosterStoryboardUnwindSegue.swift */,
+				21B0C4B11D55227A0047D35F /* UIViewExtensions.swift */,
 			);
 			path = Flicks;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				216C27C71D4FF6580043D977 /* MovieCell.swift in Sources */,
 				216C27CA1D50120B0043D977 /* DetailViewController.swift in Sources */,
 				211351871D52740900D2C0CD /* GridMovieCell.swift in Sources */,
+				21B0C4B21D55227A0047D35F /* UIViewExtensions.swift in Sources */,
 				21B0C4AC1D546A800047D35F /* PosterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
