@@ -36,6 +36,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let tabBarController = UITabBarController()
     tabBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController]
 
+    let normalColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.75)
+    let selectedColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.9)
+
+    let tabBar = tabBarController.tabBar
+    tabBar.backgroundImage = UIImage(named: "metal2")
+    tabBar.tintColor = selectedColor
+    tabBar.clipsToBounds = true
+
+    UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: normalColor], forState: UIControlState.Normal)
+    UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: selectedColor], forState: UIControlState.Selected)
+
     window?.rootViewController = tabBarController
     window?.makeKeyAndVisible()
 

@@ -28,6 +28,21 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    if let navigationBar = navigationController?.navigationBar {
+      navigationBar.setBackgroundImage(UIImage(named: "metal"), forBarMetrics: .Default)
+      navigationBar.tintColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.9)
+
+      let shadow = NSShadow()
+      shadow.shadowColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
+      shadow.shadowOffset = CGSizeMake(1, 1);
+      shadow.shadowBlurRadius = 4;
+      navigationBar.titleTextAttributes = [
+        NSFontAttributeName : UIFont.boldSystemFontOfSize(22),
+        NSForegroundColorAttributeName : UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.9),
+        NSShadowAttributeName : shadow
+      ]
+    }
+
     hud = BFRadialWaveHUD(view: self.view, fullScreen: true, circles: BFRadialWaveHUD_DefaultNumberOfCircles, circleColor: nil, mode: BFRadialWaveHUDMode.KuneKune, strokeWidth: BFRadialWaveHUD_DefaultCircleStrokeWidth)
 
     tableView.dataSource = self
@@ -44,9 +59,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     gridView.hidden = true
 
     getData(nil)
-
-
-    // Do any additional setup after loading the view.
   }
 
   override func viewDidDisappear(animated: Bool) {
