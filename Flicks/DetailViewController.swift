@@ -41,7 +41,9 @@ class DetailViewController: UIViewController {
       let imageUrl = NSURL(string: baseUrl + posterPath)
       posterImageView.setImageWithURL(imageUrl!)
     }
-    // Do any additional setup after loading the view.
+
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.tappedPosterImage))
+    scrollView.addGestureRecognizer(tapGesture)
   }
 
   override func didReceiveMemoryWarning() {
@@ -49,15 +51,22 @@ class DetailViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
+  func tappedPosterImage() {
+    performSegueWithIdentifier("PosterViewSegue", sender: self)
+  }
 
-  /*
+  @IBAction func unwindToDetailViewController(segue: UIStoryboardSegue) {}
+
    // MARK: - Navigation
 
    // In a storyboard-based application, you will often want to do a little preparation before navigation
    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
    // Get the new view controller using segue.destinationViewController.
    // Pass the selected object to the new view controller.
-   }
-   */
+    let posterViewController = segue.destinationViewController as! PosterViewController
+    posterViewController.posterImage = posterImageView.image
+  }
+
+  
 
 }

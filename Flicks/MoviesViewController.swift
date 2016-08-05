@@ -262,7 +262,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
-    print("prepare segue")
     if (sender is UITableViewCell) {
       let cell = sender as! UITableViewCell
       let indexPath = tableView.indexPathForCell(cell)

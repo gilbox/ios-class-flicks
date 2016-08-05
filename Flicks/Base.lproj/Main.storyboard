@@ -147,6 +147,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MuN-ed-jl3">
+                                <rect key="frame" x="137" y="269" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="DVK-L4-Dvo" kind="custom" identifier="PosterViewSegue" customClass="PosterStoryboardSegue" customModule="Flicks" customModuleProvider="target" id="aQ2-Tn-hBW"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7n2-Kr-9Wi">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -193,6 +201,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cTF-jp-MyV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1050" y="406"/>
+        </scene>
+        <!--Poster View Controller-->
+        <scene sceneID="ayX-Lj-aft">
+            <objects>
+                <viewController storyboardIdentifier="PosterViewController" id="DVK-L4-Dvo" customClass="PosterViewController" customModule="Flicks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0gz-V6-gK3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Yr6-XB-iJb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ovp-0w-yUL">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="posterView" destination="ovp-0w-yUL" id="KEF-F3-PC3"/>
+                        <outlet property="scrollView" destination="Yr6-XB-iJb" id="cng-B4-7CV"/>
+                        <segue destination="2nO-Lq-Cvy" kind="unwind" identifier="unwindToDetailViewController" customClass="PosterStoryboardUnwindSegue" customModule="Flicks" customModuleProvider="target" unwindAction="unwindToDetailViewController:" id="2MC-ba-zve"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hvb-oh-2hY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="2nO-Lq-Cvy" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1426" y="406"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eVR-gA-gVB">

@@ -2,7 +2,7 @@
 
 **Flicks** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **13** hours spent in total
+Time spent: **15.2** hours spent in total
 
 ## User Stories
 
@@ -23,12 +23,13 @@ The following **optional** features are implemented:
 - [X] For the large poster, load the low-res image first, switch to high-res when complete.
 - [X] Customize the highlight and selection effect of the cell.
 - [X] Customize the navigation bar.
-- [ ] Tapping on a movie poster image shows the movie poster as full screen and zoomable.
+- [X] Tapping on a movie poster image shows the movie poster as full screen and zoomable.
 - [ ] User can tap on a button to play the movie trailer.
 
 The following **additional** features are implemented:
 
 - [X] Customize Tab Bar
+- [X] Custom segue to movie poster
 
 ## Video Walkthrough
 
@@ -52,6 +53,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
             }
 
 - The search bar UX isn't so good. I need a *Cancel* button.
+
+- Pinch-zoom isn't smooth (only zooms when I let go)
 
 ## License
 
