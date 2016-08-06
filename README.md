@@ -54,8 +54,6 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 - The search bar UX isn't so good. I need a *Cancel* button.
 
-- Pinch-zoom isn't smooth (only zooms when I let go)
-
 ## License
 
     Copyright 2016 Gil Birman
